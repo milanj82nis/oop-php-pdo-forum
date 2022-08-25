@@ -1,4 +1,12 @@
-<!doctype html>
+<?php 
+require_once 'include/config.inc.php';
+require_once 'include/db.inc.php';
+
+
+        
+
+ ?>
+ <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
