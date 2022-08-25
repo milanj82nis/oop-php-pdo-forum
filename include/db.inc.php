@@ -20,7 +20,7 @@ class DbConnect {
 
 			$pdo -> setAttribute ( PDO::ATTR_DEFAULT_FETCH_MODE , PDO::FETCH_ASSOC );
 
-			$pdo -> setAttribute ( PDO::DEFAULT_ERRMODE , PDO::ERRMODE_EXCEPTION );
+			$pdo -> setAttribute ( PDO::ATTR_ERRMODE , PDO::ERRMODE_EXCEPTION );
 
 			$pdo -> exec( 'set names utf8');
 
