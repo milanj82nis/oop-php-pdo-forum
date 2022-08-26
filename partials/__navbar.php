@@ -19,23 +19,63 @@
         <a class="nav-link" href="">&nbsp; <span class="sr-only">(current)</span></a>
       </li>     <li class="nav-item active">
         <a class="nav-link" href="">&nbsp; <span class="sr-only">(current)</span></a>
-      </li>     <li class="nav-item active">
-        <a class="nav-link" href="">&nbsp; <span class="sr-only">(current)</span></a>
-      </li>     <li class="nav-item active">
-        <a class="nav-link" href="">&nbsp; <span class="sr-only">(current)</span></a>
-      </li>
+      </li>     
+<?php 
 
+try {
+
+
+$user = new User();
+
+if( $user -> checkIsUserLoggedIn()){
+?>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Welcome back , Guest
+          Welcome back , <?php echo $_SESSION['first_name'] ?> <?php echo $_SESSION['last_name'] ?> 
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="my-account.php">My account</a>
+          <a class="dropdown-item" href="change-account.php">Change account</a>
+          <a class="dropdown-item" href="my-topics.php">My topics</a>
+          <a class="dropdown-item" href="my-replies.php">My replies</a>
+          <a class="dropdown-item" href="my-messages.php">My messages</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="">Logout</a>
+        </div>
+      </li>
+
+<?php
+
+} else {
+
+?>
+ <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome back , Guest 
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="login.php">Login</a>
           <a class="dropdown-item" href="register.php">Register</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="password-reset.php">Reset password</a>
+          <a class="dropdown-item" href="reset-password.php">Reset password</a>
+          
+          
         </div>
       </li>
+
+<?php
+
+
+}
+
+
+} catch ( PDOException $e ){
+  echo $e -> getMessage();
+}
+
+
+
+?>
+
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
