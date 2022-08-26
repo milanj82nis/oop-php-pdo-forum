@@ -18,6 +18,8 @@ require_once 'include/class_autoloader.inc.php';
     <div class="col-lg-12">
         <div class="wrapper wrapper-content animated fadeInRight">
 
+<?php require_once 'partials/__navbar.php' ?>
+
             <?php require_once 'partials/__top_nav.php' ?>
 
             <div class="ibox-content forum-container">
