@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2022 at 01:10 AM
+-- Generation Time: Aug 28, 2022 at 09:15 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -117,10 +117,18 @@ CREATE TABLE `users` (
   `username` varchar(22) NOT NULL,
   `email` int(122) NOT NULL,
   `password` varchar(122) NOT NULL,
-  `activated` int(11) NOT NULL,
+  `activated` int(11) NOT NULL DEFAULT 0,
   `last_active` datetime NOT NULL,
-  `crteated_at` datetime NOT NULL
+  `blocked` int(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `activated`, `last_active`, `blocked`, `created_at`) VALUES
+(2, 'Milan', 'Jankovic', 'milanj82nis', 0, '$2y$10$BwvYhyi9guuS9fP5hdSmxunKlP6sCZBnK.NUOu6HOO9m81r.jHHlq', 0, '2022-08-28 18:53:20', 0, '2022-08-28 18:53:20');
 
 --
 -- Indexes for dumped tables
@@ -177,7 +185,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

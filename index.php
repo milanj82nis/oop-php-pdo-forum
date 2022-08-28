@@ -2,10 +2,7 @@
 require_once 'include/config.inc.php';
 require_once 'include/db.inc.php';
 require_once 'include/class_autoloader.inc.php';
-$_SESSION['first_name']= 'Milan';
-$_SESSION['last_name'] = 'Jankovic';
-$_SESSION['logged']= 1 ;
-        
+
 
  ?>
  <!doctype html>
