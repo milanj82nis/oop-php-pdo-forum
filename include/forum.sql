@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2022 at 09:15 PM
+-- Generation Time: Aug 31, 2022 at 11:01 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -118,6 +118,7 @@ CREATE TABLE `users` (
   `email` int(122) NOT NULL,
   `password` varchar(122) NOT NULL,
   `activated` int(11) NOT NULL DEFAULT 0,
+  `token` varchar(211) DEFAULT NULL,
   `last_active` datetime NOT NULL,
   `blocked` int(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL
@@ -127,8 +128,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `activated`, `last_active`, `blocked`, `created_at`) VALUES
-(2, 'Milan', 'Jankovic', 'milanj82nis', 0, '$2y$10$BwvYhyi9guuS9fP5hdSmxunKlP6sCZBnK.NUOu6HOO9m81r.jHHlq', 0, '2022-08-28 18:53:20', 0, '2022-08-28 18:53:20');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `activated`, `token`, `last_active`, `blocked`, `created_at`) VALUES
+(8, 'Milan', 'Janković', 'milanj82nis', 0, '$2y$10$304Vc9Igx7lgpGwy.xxKfeXrH5ORC8QNwfY/rRtn4g76ubNT18eLq', 1, '370b7090d41c74d52055501e0e80fd6c', '2022-08-31 22:58:57', 0, '2022-08-31 22:58:57');
 
 --
 -- Indexes for dumped tables
@@ -185,7 +186,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

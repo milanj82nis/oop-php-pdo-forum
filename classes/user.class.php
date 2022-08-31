@@ -1,5 +1,15 @@
 <?php 
 
+require 'include/phpmailer/src/Exception.php';
+require 'include/phpmailer/src/PHPMailer.php';
+require 'include/phpmailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+
+
 class User extends DbConnect {
 
 public function checkIsUserLoggedIn(){
@@ -111,12 +121,55 @@ if( $this -> checkIsUsernameTaken($username )){
 $hashed_pawword = password_hash($password , PASSWORD_DEFAULT);
 $created_at = date( 'Y-m-d H:i:s');
 $last_active = date ( 'Y-m-d H:i:s');
-
-$sql = 'insert into users ( first_name , last_name , email , password , username , activated , last_active , blocked , created_at ) values ( ? , ? , ? , ? , ? , ? , ? , ? , ? )';
+$token = bin2hex(openssl_random_pseudo_bytes(16));
+$sql = 'insert into users ( first_name , last_name , email , password , username , activated , last_active , blocked , created_at , token  ) values (? ,  ? , ? , ? , ? , ? , ? , ? , ? , ? )';
 
 $query = $this -> connect() -> prepare($sql);
-$query -> execute([  $first_name , $last_name , $email , $hashed_pawword , $username , 0 , $last_active , 0 , $created_at]);
-echo 'Success';
+$query -> execute([  $first_name , $last_name , $email , $hashed_pawword , $username , 0 , $last_active , 0 , $created_at , $token ]);
+
+
+$mail = new PHPMailer();
+$mail->isSMTP();
+$mail->Host = 'smtp.mailtrap.io';
+$mail->SMTPAuth = true;
+$mail->Port = 2525;
+$mail->Username = '81c6b1215d4db2';
+$mail->Password = 'c59f3cdff81acf';
+    //Recipients
+$mail->setFrom( ADMIN_EMAIL , ADMIN_NAME );
+$mail->addAddress( $email  , $first_name );     //Add a recipient
+    
+
+
+
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'User account activation';
+    $mail->Body    = '
+
+
+Please , click on link to activate your account : 
+<a href="http://localhost/forum/activate.php?token='. $token .'&email='. $email .'">Activate your account</a>
+
+
+    ';
+    $mail->AltBody = '
+
+
+Please , click on link to activate your account : 
+<a href="http://localhost/forum/activate.php?token='. $token .'&email='. $email .'">Activate your account</a>
+
+
+
+    ';
+
+    $mail->send();
+    echo 'Message has been sent';
+
+
+
+
 
 } else {
 	echo 'This username is already taken.';
@@ -142,7 +195,27 @@ echo 'Please , fill all fields in form.';
 
 }// userRegistration
 
+public function activateUserAccount( $token , $email ){
 
+$sql = 'select email , token from users where token = ? and email = ? ';
+$query = $this -> connect() -> prepare($sql);
+$query -> execute([ $token  , $email ]);
+$results = $query -> fetchAll();
+
+if( count($results ) > 0 ){
+
+$sql = 'update users set activated = ? where token = ? and email = ? ';
+$query = $this -> connect() -> prepare($sql);
+$query -> execute([ 1 , $token , $email ]);
+echo 'Your account is now activated.Please login so you add more posts and comments on forum. ';
+
+
+} else {
+	echo 'Wrong email or token.Please , try again later.';
+}
+
+
+}// activateUserAccount
 
 
 
