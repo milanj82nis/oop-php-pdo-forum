@@ -217,6 +217,82 @@ echo 'Your account is now activated.Please login so you add more posts and comme
 
 }// activateUserAccount
 
+private function checkIsLoginFormEmpty($email , $password ){
+
+if( !empty($email ) && !empty($password )){
+
+	return true;
+} else {
+	return false;
+}
+
+
+}// checkIsLoginFormEmpty
+
+
+public function userLogin($email , $password ){
+
+if( $this -> checkIsEmailValid($email)){
+if( $this -> checkIsLoginFormEmpty($email , $password )){
+
+$activated = 1 ;
+$blocked = 0;
+
+$sql = 'select * from users where email = :email and activated = :activated and blocked= :blocked limit 1 ';
+$query = $this -> connect() -> prepare($sql);
+$query -> bindParam ( ':email' , $email );
+$query -> bindParam ( ':activated' , $activated );
+$query -> bindParam ( 'blocked' , $blocked );
+$query -> execute();
+
+$results = $query -> fetchAll();
+
+if( count($results ) > 0 ){
+
+foreach ( $results as $result ){
+
+$hashed_password = $result['password'];
+if( password_verify ( $password , $hashed_password )){
+
+$_SESSION['logged'] = 1 ;
+$_SESSION['user_id'] = $result['id'];
+$_SESSION['first_name'] = $result['first_name'];
+$_SESSION['last_name'] = $result['last_name'];
+$_SESSION['username'] = $result['username'];
+$_SESSION['created_at'] = $result['created_at'];
+$_SESSION['blocked'] = $result['blocked'];
+$last_active = date( 'Y-m-d H:i:s');
+
+$sql = 'update users set last_active = ? where email = ? limit 1 ';
+$query = $this -> connect() -> prepare($sql);
+$query -> execute([ $last_active , $email ]);
+echo 'You are logged in .';
+header('Location:my-account.php');
+
+} else {
+
+	echo 'Wrong email or password.';
+}
+
+
+
+
+}// foreach
+
+} else {
+
+	echo 'Wrong email or password.';
+}
+
+
+} else {
+	echo 'Please , fill all filds in form.';
+}// checkIsLoginFormEmpty
+} else {
+echo 'Enter valid email address.';
+}// checkIsEmailValid
+}// userLogin
+
 
 
 
