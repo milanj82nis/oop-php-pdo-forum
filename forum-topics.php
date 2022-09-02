@@ -24,26 +24,45 @@ require_once 'include/class_autoloader.inc.php';
             <div class="ibox-content forum-container">
 
 
-
 <?php 
+
 try {
 
+$forum_id = $_GET['id'];
+if( !isset($forum_id)){
+    header('Location:index.php');
+    die();
+}
 $forum = new Forum();
+$forum_title = $forum -> getForumDetailsById($forum_id)['title'];
 
-foreach ( $forum -> getAllForums() as $forumSingle ){
-?>
+
+
+
+
+} catch ( PDOException $e ){
+    echo $e -> getMessage();
+}
+
+
+
+ ?>
+
+
+
 
 <div class="forum-title">
                     <div class="pull-right forum-desc">
-                        <samll>Total posts: 320,800</samll>
+                        <samll>Total topics: 320,800</samll>
                     </div>
-                    <h3><a href="forum-topics.php?id=<?php echo $forumSingle['id'] ?>"><?php echo $forumSingle['title']; ?></a></h3>
+                    <h3><?php echo $forum_title; ?></h3>
                 </div>
 
 <?php 
 
-foreach ( $forum -> getLast3TopicsByForumId($forumSingle['id']) as $topicSingle ){
+if( count( $forum -> getAllTopicsByForumId($forum_id))> 0 ){
 
+foreach ( $forum -> getAllTopicsByForumId($forum_id ) as $topic ){
 ?>
 
   <div class="forum-item active">
@@ -52,12 +71,12 @@ foreach ( $forum -> getLast3TopicsByForumId($forumSingle['id']) as $topicSingle 
                             <div class="forum-icon">
                                 <i class="fa fa-shield"></i>
                             </div>
-                            <a href="forum_post.html" class="forum-item-title"><?php echo $topicSingle['title'] ?>n</a>
-                            <div class="forum-sub-title"><?php echo $topicSingle['topic_sub_title'] ?></div>
+                            <a href="forum_post.html" class="forum-item-title"><?php echo $topic['title'] ?></a>
+                            <div class="forum-sub-title"><?php echo $topic['topic_sub_title'] ?></div>
                         </div>
                         <div class="col-md-1 forum-info">
                             <span class="views-number">
-                                <?php echo $topicSingle['views'] ?>
+                             <?php echo $topic['views'] ?>
                             </span>
                             <div>
                                 <small>views</small>
@@ -67,50 +86,29 @@ foreach ( $forum -> getLast3TopicsByForumId($forumSingle['id']) as $topicSingle 
                         <div class="col-md-2 forum-info">
                             <span class="views-number">
 
-<?php 
-echo $forum -> getCountOfTopicReplies($topicSingle['id'])
-
-
-
- ?>
+<?php echo $forum -> getNumberOfCommentsByTopicId($topic['id']) ?>
 
 
                             </span>
                             <div>
-                                <small>Replies</small>
+                                <small>Comments</small>
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-<?php
-
-
-}// end foreach
-
-
-
-
-?>
-
-
-              
 
 
 <?php
-}// end foreach
+}// foreach
 
 
 
-} catch ( PDOException $e ){
+} else {
 
-    echo $e -> getMessage();
+    echo 'There is no topics in this forum.';
 }
-
-
-
-
 
 
 
