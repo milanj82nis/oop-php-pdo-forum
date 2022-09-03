@@ -8,9 +8,22 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-
-
 class User extends DbConnect {
+
+
+
+
+public function getUserDetailsById($user_id ){
+
+	$sql = 'select * from users where id = ? limit 1 ';
+	$query = $this -> connect() -> prepare($sql);
+	$query -> execute([ $user_id ]);
+	$user = $query -> fetch();
+	return $user;
+
+}// getUserDetailsById
+
+
 
 public function checkIsUserLoggedIn(){
 

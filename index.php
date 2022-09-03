@@ -52,7 +52,7 @@ foreach ( $forum -> getLast3TopicsByForumId($forumSingle['id']) as $topicSingle 
                             <div class="forum-icon">
                                 <i class="fa fa-shield"></i>
                             </div>
-                            <a href="forum_post.html" class="forum-item-title"><?php echo $topicSingle['title'] ?>n</a>
+                            <a href="topic-replies.php?id=<?php echo $topic['id'] ?>" class="forum-item-title"><?php echo $topicSingle['title'] ?>n</a>
                             <div class="forum-sub-title"><?php echo $topicSingle['topic_sub_title'] ?></div>
                         </div>
                         <div class="col-md-1 forum-info">

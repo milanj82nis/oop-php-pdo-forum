@@ -4,6 +4,19 @@
 class Forum extends DbConnect {
 
 
+
+public function getAllRepliesByTopicId($topic_id ){
+
+
+$sql = 'select * from replies where topic_id = ? order by created_at desc';
+$query = $this -> connect() -> prepare($sql);
+$query -> execute([ $topic_id ]);
+$replies = $query -> fetchAll();
+return $replies;
+
+}// getAllRepliesByTopicId
+
+
 public function getNumberOfCommentsByTopicId($topic_id ){
 
 $sql = 'select * from replies where topic_id = ? ';
