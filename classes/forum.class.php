@@ -8,11 +8,31 @@ class Forum extends DbConnect {
 public function getAllRepliesByTopicId($topic_id ){
 
 
-$sql = 'select * from replies where topic_id = ? order by created_at desc';
+	$page = isset($_GET['page']) ? (int)$_GET['page'] : 1 ;
+	$perPage = isset( $_GET['per-page']) && $_GET['per-page'] <= 5 ? (int)$_GET['per-page'] : 5 ;
+	$start = ($page > 1 ) ? ($page * $perPage ) - $perPage : 0;
+
+
+$sql = 'select * from replies where topic_id = :topic_id order by created_at desc LIMIT :start , :perPage';
 $query = $this -> connect() -> prepare($sql);
-$query -> execute([ $topic_id ]);
+	$query -> bindParam( ':topic_id' , $topic_id , PDO::PARAM_INT );
+	$query -> bindParam( ':start' , $start , PDO::PARAM_INT );
+	$query -> bindParam( ':perPage' , $perPage , PDO::PARAM_INT );
+	$query -> execute();
 $replies = $query -> fetchAll();
-return $replies;
+
+
+
+$sql = 'select * from replies where topic_id = :topic_id';
+	$query = $this -> connect() -> prepare($sql);
+	$query -> bindParam( ':topic_id' , $topic_id , PDO::PARAM_INT );
+	$query -> execute();
+	$topicCount = $query -> fetchAll();
+	$allReplies = count( $topicCount);
+	$pages = ceil( $allReplies / $perPage);
+
+	return array( 'pages' => $pages , 'replies' => $replies , 'per-page' => $perPage);
+
 
 }// getAllRepliesByTopicId
 
@@ -28,11 +48,30 @@ return $results;
 
 
 public function getAllTopicsByForumId($forum_id ){
-	$sql = 'select * from topics where forum_id = ? order by created_at desc ';
+
+
+	$page = isset($_GET['page']) ? (int)$_GET['page'] : 1 ;
+	$perPage = isset( $_GET['per-page']) && $_GET['per-page'] <= 5 ? (int)$_GET['per-page'] : 5 ;
+	$start = ($page > 1 ) ? ($page * $perPage ) - $perPage : 0;
+
+	$sql = 'select * from topics where forum_id = :forum_id  order by created_at desc LIMIT :start  , :perPage ';
 	$query = $this -> connect() -> prepare($sql);
-	$query -> execute([ $forum_id ]);
+	$query -> bindParam( ':forum_id' , $forum_id , PDO::PARAM_INT );
+	$query -> bindParam( ':start' , $start , PDO::PARAM_INT );
+	$query -> bindParam( ':perPage' , $perPage , PDO::PARAM_INT );
+	$query -> execute();
 	$topics = $query -> fetchAll();
-	return $topics ;
+
+	$sql = 'select * from topics where forum_id = :forum_id';
+	$query = $this -> connect() -> prepare($sql);
+	$query -> bindParam( ':forum_id' , $forum_id , PDO::PARAM_INT );
+	$query -> execute();
+	$topicCount = $query -> fetchAll();
+	$allTopics = count( $topicCount);
+	$pages = ceil( $allTopics / $perPage);
+
+	return array( 'pages' => $pages , 'topics' => $topics , 'per-page' => $perPage);
+
 
 }// getAllTopicsByForumId
 

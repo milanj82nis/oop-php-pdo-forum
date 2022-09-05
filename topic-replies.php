@@ -33,9 +33,9 @@ $forum = new Forum();
 $user = new User();
 $topic_id = $_GET['id'];
 
-if( count( $forum -> getAllRepliesByTopicId($topic_id)) > 0 ){
+if( count( $forum -> getAllRepliesByTopicId($topic_id)['replies']) > 0 ){
 
-foreach ( $forum -> getAllRepliesByTopicId($topic_id ) as $reply ){
+foreach ( $forum -> getAllRepliesByTopicId($topic_id )['replies'] as $reply ){
 
 ?>
 
@@ -83,7 +83,44 @@ foreach ( $forum -> getAllRepliesByTopicId($topic_id ) as $reply ){
  </div>
 <?php
 }// end foreach
+?>
 
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+<?php 
+$pages = $forum -> getAllRepliesByTopicId($topic_id)['pages'];
+$perPage = $forum -> getAllRepliesByTopicId($topic_id)['per-page'];
+if( !isset($_GET['page'])){
+    $page = 1 ;
+} else {
+    $page = (int)$_GET['page'];
+}
+if( !isset($_GET['id'])){
+    $id = 1 ;
+} else {
+    $id = (int)$_GET['id'];
+}
+
+for ( $x = 1 ; $x <= $pages ; $x++ ) {
+
+?>
+    <li class="page-item">
+        <a class="page-link" href="?id=<?php echo $id; ?>&page=<?php echo $x;  ?>&per-page=<?php echo $perPage;  ?>"><?php echo $x ; ?></a>
+    </li>
+
+<?php
+
+}// end for
+ ?>
+
+
+
+  </ul>
+</nav>
+
+<?php
 } else {
 
     echo 'This topic dont have any reply.';

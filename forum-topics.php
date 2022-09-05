@@ -60,9 +60,9 @@ $forum_title = $forum -> getForumDetailsById($forum_id)['title'];
 
 <?php 
 
-if( count( $forum -> getAllTopicsByForumId($forum_id))> 0 ){
+if( count( $forum -> getAllTopicsByForumId($forum_id)['topics'])> 0 ){
 
-foreach ( $forum -> getAllTopicsByForumId($forum_id ) as $topic ){
+foreach ( $forum -> getAllTopicsByForumId($forum_id )['topics'] as $topic ){
 ?>
 
   <div class="forum-item active">
@@ -102,7 +102,42 @@ foreach ( $forum -> getAllTopicsByForumId($forum_id ) as $topic ){
 
 <?php
 }// foreach
+?>
 
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+<?php 
+$pages = $forum -> getAllTopicsByForumId($forum_id)['pages'];
+$perPage = $forum -> getAllTopicsByForumId($forum_id)['per-page'];
+if( !isset($_GET['page'])){
+    $page = 1 ;
+} else {
+    $page = (int)$_GET['page'];
+}
+if( !isset($_GET['id'])){
+    $id = 1 ;
+} else {
+    $id = (int)$_GET['id'];
+}
+
+for ( $x = 1 ; $x <= $pages ; $x++ ) {
+
+?>
+    <li class="page-item">
+        <a class="page-link" href="?id=<?php echo $id; ?>&page=<?php echo $x;  ?>&per-page=<?php echo $perPage;  ?>"><?php echo $x ; ?></a>
+    </li>
+
+<?php
+
+}// end for
+ ?>
+
+
+
+  </ul>
+</nav>
+<?php
 
 
 } else {
