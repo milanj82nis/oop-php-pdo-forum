@@ -75,6 +75,49 @@ public function getAllTopicsByForumId($forum_id ){
 
 }// getAllTopicsByForumId
 
+private function slugify($string){
+
+return strtolower(trim(preg_replace( '/[^A-Za-z0-9-]+/','-',$string ) , '-'));
+}// slugify 
+private function checkIsAddTopicFormEmpty($title , $topic_sub_title ){
+
+if( !empty($title) && !empty($topic_sub_title )){
+
+	return true;
+} else {
+	return false;
+}
+
+}// checkIsAddTopicFormEmpty
+
+
+public function addTopic($forum_id , $title , $topic_sub_title ){
+
+if( $this -> checkIsAddTopicFormEmpty($title , $topic_sub_title )){
+
+
+$user_id = $_SESSION['user_id'];
+$created_at = date('Y-m-d H:i:s');
+$updated_at = date('Y-m-d H:i:s');
+$slug = $this -> slugify($title);
+$sql = 'insert into topics ( title , topic_sub_title , user_id , created_at , updated_at , forum_id  , slug) values ( ? , ? , ? , ? , ? , ? , ? )';
+$query = $this -> connect() ->  prepare($sql);
+$query -> execute([  $title , $topic_sub_title , $user_id , $created_at , $updated_at , $forum_id  , $slug]);
+echo '<div class="alert alert-success" role="alert">
+  Topic is added .
+</div>';
+
+} else {
+	echo '<div class="alert alert-danger" role="alert">
+  Please , fill all fields in form.
+</div>';
+}
+
+
+
+}// addTopic
+
+
 public function getForumDetailsById($forum_id ){
 
 	$sql = 'select * from forums where id = ? limit 1 ';

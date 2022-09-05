@@ -145,13 +145,60 @@ for ( $x = 1 ; $x <= $pages ; $x++ ) {
     echo 'There is no topics in this forum.';
 }
 
+$user = new User();
 
+if( $user -> checkIsUserLoggedIn()){
+
+    if( isset($_POST['addTopic'])){
+$forum = new Forum();
+$title = trim($_POST['title']);
+$topic_sub_title = trim($_POST['topic_sub_title']);
+$forum_id = $_GET['id'];
+$forum -> addTopic( $forum_id , $title , $topic_sub_title);
+
+    }// main isset
+?>
+
+
+<div class="col-md-8">
+    
+<form action="" method="POST">
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Title</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" name="title" >
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Topic content</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="topic_sub_title"></textarea>
+  </div>
+
+
+  <div class="form-group">
+    <button name="addTopic" class="btn btn-primary">Add topic</button>
+  </div>
+
+  
+</form>
+
+
+</div>
+                
+
+
+<?php
+
+} else {
+
+
+}
 
  ?>
 
 
 
-                
+
+
 
             </div>
         </div>
