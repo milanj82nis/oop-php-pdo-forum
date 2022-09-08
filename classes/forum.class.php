@@ -3,6 +3,39 @@
 
 class Forum extends DbConnect {
 
+private function checkIsReplyFormEmpty($content){
+	if( !empty($content)){
+		return true;
+	} else {
+		return false;
+	}
+}// checkIsReplyFormEmpty
+
+
+public function addReply($topic_id , $content){
+
+if( $this -> checkIsReplyFormEmpty($content)){
+
+$user_id = (int)$_SESSION['user_id'];
+$created_at = date('Y-m-d H:i:s');
+$updated_at = date('Y-m-d H:i:s');
+
+$sql = 'insert into replies ( topic_id , user_id , content , created_at , updated_at ) values ( ? , ? , ? , ? , ? )';
+$query = $this -> connect() -> prepare($sql);
+$query -> execute([ $topic_id , $user_id , $content , $created_at , $updated_at  ]);
+
+echo '<div class="alert alert-success" role="alert">
+  Your reply is added.
+</div>';
+
+} else {
+echo '<div class="alert alert-danger" role="alert">
+  Please , fill all fields in form.
+</div>';
+}
+
+
+}// addTopic
 
 
 public function getAllRepliesByTopicId($topic_id ){

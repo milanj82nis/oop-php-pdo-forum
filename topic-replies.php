@@ -131,6 +131,46 @@ for ( $x = 1 ; $x <= $pages ; $x++ ) {
     echo $e -> getMessage();
 }
 
+try {
+
+
+$user = new User();
+if( $user -> checkIsUserLoggedIn()){
+
+if( isset($_POST['addReply'])){
+
+$content = trim($_POST['content']);
+$topic_id = $_GET['id'];
+$forum = new Forum();
+$forum -> addReply( $topic_id , $content);
+
+}// main isset
+
+?>
+<form action="" method="POST">
+  <div class="form-group">
+<label for="exampleFormControlTextarea1">Content</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" name="content"></textarea>
+  </div>
+  
+
+  <div class="form-group">
+    <button name="addReply" class="btn btn-primary">Add reply</button>
+  </div>
+</form>
+
+<?php
+} else {
+    echo '<div class="alert alert-danger" role="alert">
+  Please , login to your account to leave a raply.
+</div>';
+}
+
+
+} catch ( PDOException $e ){
+    echo $e -> getMessage();
+}
+
 
 
 
