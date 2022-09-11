@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2022 at 02:42 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.1
+-- Generation Time: Sep 11, 2022 at 10:33 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,9 @@ CREATE TABLE `forums` (
 
 INSERT INTO `forums` (`id`, `title`, `slug`, `created_at`, `updated_at`, `user_id`) VALUES
 (1, 'Lorem ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet', '2022-08-26 00:49:33', '2022-08-26 00:49:33', 1),
-(2, 'At, si voluptas esset bonum', 'at-si-voluptas-esset-bonum', '2022-08-26 00:49:33', '2022-08-26 00:49:33', 1);
+(2, 'At, si voluptas esset bonum', 'at-si-voluptas-esset-bonum', '2022-08-26 00:49:33', '2022-08-26 00:49:33', 1),
+(10, 'Bootstrap’s form controls expand on our Rebooted form styles with', 'bootstrap-s-form-controls-expand-on-our-rebooted-form-styles-with', '2022-09-10 22:03:49', '2022-09-10 22:03:49', 1),
+(11, 'Textual form controls—like', 'textual-form-controls-like', '2022-09-10 22:04:36', '2022-09-10 22:04:36', 1);
 
 -- --------------------------------------------------------
 
@@ -120,6 +122,7 @@ INSERT INTO `topics` (`id`, `title`, `topic_sub_title`, `user_id`, `views`, `slu
 
 CREATE TABLE `users` (
   `id` int(11) UNSIGNED NOT NULL,
+  `is_admin` int(1) NOT NULL DEFAULT 0,
   `first_name` varchar(122) NOT NULL,
   `last_name` varchar(122) NOT NULL,
   `username` varchar(22) NOT NULL,
@@ -138,8 +141,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `activated`, `token`, `last_active`, `replies_count`, `posts_count`, `blocked`, `created_at`) VALUES
-(1, 'Milan', 'Janković', 'milanj82nis', 'milanj31@gmail.com', '$2y$10$5byf32mIBbdDLMeYyA/1/OCvgVLFiPi5wdQ2Egwo49FrEos/gQl5.', 1, '70eb9eff8200d126ccd83434287aed06', '2022-09-03 09:32:49', 10, 0, 0, '2022-09-01 01:00:06');
+INSERT INTO `users` (`id`, `is_admin`, `first_name`, `last_name`, `username`, `email`, `password`, `activated`, `token`, `last_active`, `replies_count`, `posts_count`, `blocked`, `created_at`) VALUES
+(1, 1, 'Milan', 'Janković', 'milanj82nis', 'milanj31@gmail.com', '$2y$10$5byf32mIBbdDLMeYyA/1/OCvgVLFiPi5wdQ2Egwo49FrEos/gQl5.', 1, '70eb9eff8200d126ccd83434287aed06', '2022-09-10 21:53:09', 10, 0, 0, '2022-09-01 01:00:06');
 
 --
 -- Indexes for dumped tables
@@ -178,7 +181,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `forums`
 --
 ALTER TABLE `forums`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `replies`

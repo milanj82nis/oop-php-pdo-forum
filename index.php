@@ -2,7 +2,7 @@
 require_once 'include/config.inc.php';
 require_once 'include/db.inc.php';
 require_once 'include/class_autoloader.inc.php';
-
+ob_start();
 
  ?>
  <!doctype html>
@@ -102,6 +102,44 @@ echo $forum -> getCountOfTopicReplies($topicSingle['id'])
 }// end foreach
 
 
+$admin = new Admin();
+
+if( $admin -> checkIsUserAdmin()){
+   
+if( isset($_POST['addForum'])){
+
+$title = trim($_POST['title']);
+$admin -> addForum( $title );
+
+
+}// addForum
+
+
+   ?>
+
+
+<div class="col-md-5">
+    
+<form action="" method="POST">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Forum title</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title">
+
+  </div>
+  
+  <div class="form-check">
+    <button class="btn btn-primary" name="addForum">Add forum</button>
+  </div>
+</form>
+
+
+</div>
+
+   <?php
+
+
+} 
+
 
 } catch ( PDOException $e ){
 
@@ -140,3 +178,4 @@ echo $forum -> getCountOfTopicReplies($topicSingle['id'])
     -->
   </body>
 </html>
+<?php ob_end_flush() ?>

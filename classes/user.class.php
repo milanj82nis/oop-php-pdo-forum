@@ -274,6 +274,7 @@ $_SESSION['last_name'] = $result['last_name'];
 $_SESSION['username'] = $result['username'];
 $_SESSION['created_at'] = $result['created_at'];
 $_SESSION['blocked'] = $result['blocked'];
+$_SESSION['is_admin'] = $result['is_admin'];
 $last_active = date( 'Y-m-d H:i:s');
 
 $sql = 'update users set last_active = ? where email = ? limit 1 ';
