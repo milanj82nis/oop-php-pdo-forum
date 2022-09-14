@@ -45,11 +45,28 @@ foreach ( $forum -> getAllRepliesByTopicId($topic_id )['replies'] as $reply ){
              <div class="card mb-4">
                  <div class="card-header">
                      <div class="media flex-wrap w-100 align-items-center"> <img src="https://i.imgur.com/iNmBizf.jpg" class="d-block ui-w-40 rounded-circle" alt="">
-                         <div class="media-body ml-3"> <a href="javascript:void(0)" data-abc="true"><?php echo $user ->getUserDetailsById($reply['user_id'])['first_name'] ?> <?php echo $user ->getUserDetailsById($reply['user_id'])['last_name'] ?></a>
-                             <div class="text-muted small"><?php echo $user ->getUserDetailsById($reply['user_id'])['last_active'] ?></div>
+                         <div class="media-body ml-3"> <a href="javascript:void(0)" data-abc="true">
+                            <?php echo $user ->getUserDetailsById($reply['user_id'])['first_name'] ?> 
+                            <?php echo $user ->getUserDetailsById($reply['user_id'])['last_name'] ?>
+                                
+                            </a>
+                             <div class="text-muted small">
+                               <?php echo $forum -> time_elapsed_string($user ->getUserDetailsById($reply['user_id'])['last_active']); ?>
+
+
+                                    
+
+                            </div>
                          </div>
                          <div class="text-muted small ml-3">
-                             <div>Member since <strong><?php echo $user ->getUserDetailsById($reply['user_id'])['created_at'] ?></strong></div>
+                             <div>Member since <strong>
+                                
+
+                               <?php echo $forum -> time_elapsed_string($user ->getUserDetailsById($reply['user_id'])['created_at']); ?>
+
+                            
+                                    
+                                </strong></div>
                              <div><strong><?php echo $user ->getUserDetailsById($reply['user_id'])['replies_count'] ?></strong> replies</div>
                          </div>
                      </div>

@@ -35,7 +35,7 @@ foreach ( $forum -> getAllForums() as $forumSingle ){
 
 <div class="forum-title">
                     <div class="pull-right forum-desc">
-                        <samll>Total posts: 320,800</samll>
+                        <samll>Total posts: <?php echo $forum -> getNumberOfTopicsByForumId($forumSingle['id']); ?></samll>
                     </div>
                     <h3><a href="forum-topics.php?id=<?php echo $forumSingle['id'] ?>"><?php echo $forumSingle['title']; ?></a></h3>
                 </div>
@@ -52,7 +52,7 @@ foreach ( $forum -> getLast3TopicsByForumId($forumSingle['id']) as $topicSingle 
                             <div class="forum-icon">
                                 <i class="fa fa-shield"></i>
                             </div>
-                            <a href="topic-replies.php?id=<?php echo $topic['id'] ?>" class="forum-item-title"><?php echo $topicSingle['title'] ?>n</a>
+                            <a href="topic-replies.php?id=<?php echo $topicSingle['id'] ?>" class="forum-item-title"><?php echo $topicSingle['title'] ?>n</a>
                             <div class="forum-sub-title"><?php echo $topicSingle['topic_sub_title'] ?></div>
                         </div>
                         <div class="col-md-1 forum-info">
@@ -117,7 +117,8 @@ $admin -> addForum( $title );
 
    ?>
 
-
+<br><div><hr></div>
+<br>
 <div class="col-md-5">
     
 <form action="" method="POST">
